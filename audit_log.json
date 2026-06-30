@@ -1,0 +1,168 @@
+[
+  {
+    "content_id": "54e3d1d6-da94-4879-aef9-39cfbeb60912",
+    "creator_id": "test-user-1",
+    "timestamp": "2026-06-30T21:47:43.782086+00:00",
+    "attribution": "likely_human",
+    "confidence": 0.2,
+    "llm_score": 0.2,
+    "stylometric_score": null,
+    "status": "under_review",
+    "appeal_reasoning": "I wrote this myself from personal experience. I am a non-native English speaker and my writing style may appear more formal than typical.",
+    "appeal_timestamp": "2026-06-30T22:04:48.979935+00:00"
+  },
+  {
+    "content_id": "14d5984c-e08e-45af-afcb-413347466eb1",
+    "creator_id": "test-ai",
+    "timestamp": "2026-06-30T21:52:14.444961+00:00",
+    "attribution": "likely_ai",
+    "confidence": 0.69,
+    "llm_score": 0.8,
+    "stylometric_score": 0.5242,
+    "low_data_warning": false,
+    "status": "classified"
+  },
+  {
+    "content_id": "3329531c-9582-4557-bb1d-e63698c9f27e",
+    "creator_id": "test-human",
+    "timestamp": "2026-06-30T21:52:24.475705+00:00",
+    "attribution": "likely_human",
+    "confidence": 0.291,
+    "llm_score": 0.2,
+    "stylometric_score": 0.4279,
+    "low_data_warning": false,
+    "status": "classified"
+  },
+  {
+    "content_id": "225841a6-e921-4a5b-9123-247eeb7d5518",
+    "creator_id": "test-borderline-1",
+    "timestamp": "2026-06-30T21:52:41.234429+00:00",
+    "attribution": "uncertain",
+    "confidence": 0.632,
+    "llm_score": 0.7,
+    "stylometric_score": 0.5298,
+    "low_data_warning": false,
+    "status": "classified"
+  },
+  {
+    "content_id": "a455ccb2-e7ed-4731-9ed8-c1b4ead9f878",
+    "creator_id": "test-borderline-2",
+    "timestamp": "2026-06-30T21:52:49.274962+00:00",
+    "attribution": "uncertain",
+    "confidence": 0.451,
+    "llm_score": 0.4,
+    "stylometric_score": 0.5267,
+    "low_data_warning": false,
+    "status": "classified"
+  },
+  {
+    "content_id": "ec45a9a4-cbc4-4c07-bf5c-d8d901710349",
+    "creator_id": "test-ai",
+    "timestamp": "2026-06-30T22:04:36.561434+00:00",
+    "attribution": "likely_ai",
+    "confidence": 0.69,
+    "llm_score": 0.8,
+    "stylometric_score": 0.5242,
+    "low_data_warning": false,
+    "status": "classified"
+  },
+  {
+    "content_id": "a227f2f9-e71a-4b6b-b4b4-446c5e717e36",
+    "creator_id": "ratelimit-test",
+    "timestamp": "2026-06-30T22:05:03.392330+00:00",
+    "attribution": "likely_ai",
+    "confidence": 0.68,
+    "llm_score": 0.8,
+    "stylometric_score": 0.5,
+    "low_data_warning": true,
+    "status": "classified"
+  },
+  {
+    "content_id": "f097199e-1dc3-473b-853a-4d6578fa054f",
+    "creator_id": "ratelimit-test",
+    "timestamp": "2026-06-30T22:05:03.867083+00:00",
+    "attribution": "likely_ai",
+    "confidence": 0.68,
+    "llm_score": 0.8,
+    "stylometric_score": 0.5,
+    "low_data_warning": true,
+    "status": "classified"
+  },
+  {
+    "content_id": "1865b3b4-c80a-459d-a3c6-662ced2f2f22",
+    "creator_id": "ratelimit-test",
+    "timestamp": "2026-06-30T22:05:04.370322+00:00",
+    "attribution": "likely_ai",
+    "confidence": 0.68,
+    "llm_score": 0.8,
+    "stylometric_score": 0.5,
+    "low_data_warning": true,
+    "status": "classified"
+  },
+  {
+    "content_id": "a1d5131c-d72c-457e-8588-f14bca44a683",
+    "creator_id": "ratelimit-test",
+    "timestamp": "2026-06-30T22:05:04.684837+00:00",
+    "attribution": "likely_ai",
+    "confidence": 0.68,
+    "llm_score": 0.8,
+    "stylometric_score": 0.5,
+    "low_data_warning": true,
+    "status": "classified"
+  },
+  {
+    "content_id": "da1de5c5-b59f-4190-8c96-973d9d8422db",
+    "creator_id": "ratelimit-test",
+    "timestamp": "2026-06-30T22:05:05.192312+00:00",
+    "attribution": "likely_ai",
+    "confidence": 0.68,
+    "llm_score": 0.8,
+    "stylometric_score": 0.5,
+    "low_data_warning": true,
+    "status": "classified"
+  },
+  {
+    "content_id": "22b7387a-11d8-4bc9-a135-3d98746eaf3f",
+    "creator_id": "ratelimit-test",
+    "timestamp": "2026-06-30T22:05:05.855730+00:00",
+    "attribution": "likely_ai",
+    "confidence": 0.68,
+    "llm_score": 0.8,
+    "stylometric_score": 0.5,
+    "low_data_warning": true,
+    "status": "classified"
+  },
+  {
+    "content_id": "3b3b528b-9206-45f4-8bd5-846dc57885df",
+    "creator_id": "ratelimit-test",
+    "timestamp": "2026-06-30T22:05:06.375731+00:00",
+    "attribution": "likely_ai",
+    "confidence": 0.68,
+    "llm_score": 0.8,
+    "stylometric_score": 0.5,
+    "low_data_warning": true,
+    "status": "classified"
+  },
+  {
+    "content_id": "8585603f-3dd9-41b1-89c9-cca8be06d2af",
+    "creator_id": "ratelimit-test",
+    "timestamp": "2026-06-30T22:05:06.836028+00:00",
+    "attribution": "likely_ai",
+    "confidence": 0.68,
+    "llm_score": 0.8,
+    "stylometric_score": 0.5,
+    "low_data_warning": true,
+    "status": "classified"
+  },
+  {
+    "content_id": "fc13721d-9c5f-40ed-9be1-da1d1a189b4c",
+    "creator_id": "ratelimit-test",
+    "timestamp": "2026-06-30T22:05:07.591419+00:00",
+    "attribution": "likely_ai",
+    "confidence": 0.68,
+    "llm_score": 0.8,
+    "stylometric_score": 0.5,
+    "low_data_warning": true,
+    "status": "classified"
+  }
+]
