@@ -7,12 +7,27 @@ import re
 from datetime import datetime, timezone
 
 from flask import Flask, request, jsonify
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
 from groq import Groq
 from dotenv import load_dotenv
 
 load_dotenv()
 
 app = Flask(__name__)
+
+# ---------------------------------------------------------------------------
+# Rate limiting
+# 10 per minute: prevents automated flooding (a real writer submits maybe
+# once or twice in a sitting, not 10 times per minute)
+# 100 per day: generous for legitimate use, but makes bulk scraping costly
+# ---------------------------------------------------------------------------
+limiter = Limiter(
+    get_remote_address,
+    app=app,
+    default_limits=[],
+    storage_uri="memory://",
+)
 
 groq_client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
 
@@ -173,10 +188,56 @@ def score_confidence(llm_score, stylometric_score):
 
 
 # ---------------------------------------------------------------------------
+# Transparency label generator
+# ---------------------------------------------------------------------------
+
+def generate_label(confidence, attribution, low_data=False):
+    """
+    Maps confidence score + attribution to one of three transparency label
+    variants. Percentages shown always reflect the direction of the verdict.
+    """
+    warning = "\n\n⚠️ Note: This submission was too short for reliable structural analysis. Results may be less accurate." if low_data else ""
+
+    if attribution == "likely_ai":
+        pct = round(confidence * 100)
+        return (
+            f"⚠️ AI-Generated Content Likely\n\n"
+            f"Our system has analyzed this submission and found strong indicators "
+            f"that it may have been generated with AI assistance (confidence: {pct}%).\n\n"
+            f"This label does not mean the content has no value — it's here to help "
+            f"readers understand how it was created. If you are the creator and believe "
+            f"this is incorrect, you can submit an appeal."
+            f"{warning}"
+        )
+    elif attribution == "likely_human":
+        pct = round((1 - confidence) * 100)
+        return (
+            f"✅ Likely Human-Written\n\n"
+            f"Our system found strong indicators that this content was written by a "
+            f"person (confidence: {pct}%).\n\n"
+            f"This label reflects our best analysis and is not a guarantee. Our "
+            f"detection system is not perfect."
+            f"{warning}"
+        )
+    else:  # uncertain
+        pct = round(confidence * 100)
+        return (
+            f"🔍 Authorship Uncertain\n\n"
+            f"Our system analyzed this submission but could not confidently determine "
+            f"whether it was written by a person or generated with AI assistance "
+            f"(confidence: {pct}%).\n\n"
+            f"Some writing styles, non-native English, or formal prose can be difficult "
+            f"to classify. If you are the creator, you may submit an appeal to add context."
+            f"{warning}"
+        )
+
+
+# ---------------------------------------------------------------------------
 # Routes
 # ---------------------------------------------------------------------------
 
 @app.route("/submit", methods=["POST"])
+@limiter.limit("10 per minute;100 per day")
 def submit():
     data = request.get_json(silent=True) or {}
     text = data.get("text", "").strip()
@@ -193,8 +254,7 @@ def submit():
     llm_score = groq_signal(text)
     stylo_score, low_data = stylometric_signal(text)
     confidence, attribution = score_confidence(llm_score, stylo_score)
-
-    label = "placeholder - label generator added in Milestone 5"
+    label = generate_label(confidence, attribution, low_data)
 
     log_entry = {
         "content_id": content_id,
@@ -219,6 +279,43 @@ def submit():
             "low_data_warning": low_data,
         },
         "label": label,
+    })
+
+
+@app.route("/appeal", methods=["POST"])
+def appeal():
+    data = request.get_json(silent=True) or {}
+    content_id = data.get("content_id", "").strip()
+    creator_reasoning = data.get("creator_reasoning", "").strip()
+
+    if not content_id:
+        return jsonify({"error": "Missing required field: content_id"}), 400
+    if not creator_reasoning:
+        return jsonify({"error": "Missing required field: creator_reasoning"}), 400
+
+    entry = find_log_entry(content_id)
+    if not entry:
+        return jsonify({"error": f"No submission found with content_id: {content_id}"}), 404
+
+    if entry.get("status") == "under_review":
+        return jsonify({
+            "content_id": content_id,
+            "status": "under_review",
+            "message": "An appeal for this submission is already under review.",
+        }), 200
+
+    appeal_timestamp = datetime.now(timezone.utc).isoformat()
+    update_log_entry(content_id, {
+        "status": "under_review",
+        "appeal_reasoning": creator_reasoning,
+        "appeal_timestamp": appeal_timestamp,
+    })
+
+    return jsonify({
+        "content_id": content_id,
+        "status": "under_review",
+        "message": "Your appeal has been received and will be reviewed. Thank you for providing context.",
+        "appeal_timestamp": appeal_timestamp,
     })
 
 
